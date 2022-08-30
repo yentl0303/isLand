@@ -1,0 +1,10 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background-color: #1a1a20;
+}
+html::-webkit-scrollbar{
+	width: 0 !important;
+}
