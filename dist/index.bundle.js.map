@@ -1,1 +1,0 @@
-{"version":3,"file":"index.bundle.js","mappings":"mBACAA,QAAQC,IAAI,QACZD,QAAQC,IAAI,CAAC,IAAIC,IAAI,CAAC,EAAG,EAAG,EAAG,EAAG,EAAG,K","sources":["webpack://island/./src/index.js"],"sourcesContent":["import '@/test'\r\nconsole.log('运行成功');\r\nconsole.log([new Set([1, 2, 3, 4, 5, 6])])\r\n"],"names":["console","log","Set"],"sourceRoot":""}

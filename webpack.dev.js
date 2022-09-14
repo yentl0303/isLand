@@ -17,8 +17,10 @@ module.exports = merge(base,{
 	devServer:{
     //配置本地的静态资源文件夹，用来让这两个文件夹内部的文件可以通过访问http地址直接展示
 		static:[
-			path.resolve(__dirname,'dist'),//这里是构建目标路径
-			path.resolve(__dirname,'public')//这里是public部分的内容
+			path.resolve(__dirname)//这里是构建目标路径
+			// path.resolve(__dirname,'/dist/'),//这里是构建目标路径
+			// path.resolve(__dirname,'/public/'),//这里是public部分的内容
+			// path.resolve(__dirname,'/src')//这里是public部分的内容
 		],
 		host:'localhost',//本地服务启动后的ip地址
 		port:8082,//本地服务启动的端口号
