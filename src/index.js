@@ -1,10 +1,7 @@
 // 1.导入threejs
-//import * as THREE from 'three';
-//import * as THREE from "https://cdn.skypack.dev/three@0.126.0";
 import * as THREE from "../node_modules/three/build/three.min.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-// const skyJPG = require('../src/assets/sky.jpg');
-// console.log(skyJPG);
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 // 2.初始化场景
 const scene = new THREE.Scene();
 
@@ -26,10 +23,9 @@ scene.add(camera);
 // 6.初始化渲染器
 const renderer = new THREE.WebGLRenderer({
     // 6.1设置抗锯齿
-    antialias: true,
-    // alpha: true
+    antialias: true
 });
-// renderer.outputEncoding = THREE.sRGBEncoding;
+
 // 6.2设置渲染尺寸
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -64,7 +60,26 @@ light.position.set(-100, 100, 10);
 scene.add(light);
 
 // 11.创建轨道控制器
-const controls = new OrbitControls(camera, renderer.domElement)
+const controls = new OrbitControls(camera, renderer.domElement);
+
+// 12.创建天空动态视频纹理
+const videoSky = document.createElement('video');
+videoSky.src = '../src/assets/sky.mp4';
+videoSky.loop = true
+// 13.鼠标移动时添加天空动态视频
+window.addEventListener('click', () => {
+    // 13.1当视频处于停止状态时,播放视频
+    if(videoSky.paused){
+        console.log(videoSky);
+        videoSky.play();
+        // 13.2 创建动态天空纹理
+        const videoTure = new THREE.VideoTexture(videoSky);
+        // 13.3 添加视频纹理
+        skyMaterial.map = videoTure;
+        // 13.4更新缓存
+        skyMaterial.map.needsUpdate = true;
+    }
+});
 
 // 7.将渲染器添加进页面
 document.body.appendChild(renderer.domElement);
