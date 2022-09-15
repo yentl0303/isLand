@@ -2,6 +2,8 @@
 import * as THREE from "../node_modules/three/build/three.min.js";
 import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls";
 import { RGBELoader } from "../node_modules/three/examples/jsm/loaders/RGBELoader";
+// 导入水面
+import { Water } from "../node_modules/three/examples/jsm/objects/Water2";
 // 2.初始化场景
 const scene = new THREE.Scene();
 
@@ -67,19 +69,19 @@ const videoSky = document.createElement('video');
 videoSky.src = '../src/assets/sky.mp4';
 videoSky.loop = true
 // 13.鼠标移动时添加天空动态视频
-window.addEventListener('click', () => {
-    // 13.1当视频处于停止状态时,播放视频
-    if(videoSky.paused){
-        console.log(videoSky);
-        videoSky.play();
-        // 13.2 创建动态天空纹理
-        const videoTure = new THREE.VideoTexture(videoSky);
-        // 13.3 添加视频纹理
-        skyMaterial.map = videoTure;
-        // 13.4更新缓存
-        skyMaterial.map.needsUpdate = true;
-    }
-});
+// window.addEventListener('click', () => {
+//     // 13.1当视频处于停止状态时,播放视频
+//     if(videoSky.paused){
+//         console.log(videoSky);
+//         videoSky.play();
+//         // 13.2 创建动态天空纹理
+//         const videoTure = new THREE.VideoTexture(videoSky);
+//         // 13.3 添加视频纹理
+//         skyMaterial.map = videoTure;
+//         // 13.4更新缓存
+//         skyMaterial.map.needsUpdate = true;
+//     }
+// });
 
 // 14.载入环境纹理s
 const hdrLoader = new RGBELoader();
@@ -91,6 +93,21 @@ hdrLoader.loadAsync('../src/assets/050.hdr').then((hdrTexture) => {
     // 14.3设为场景中所有物理材质的环境贴图
     scene.environment = hdrTexture;
 })
+
+// 15.创建水平面
+const waterGeometry = new THREE.CircleBufferGeometry(300, 64);
+// 15.1 创建水
+const water = new Water(waterGeometry, {
+    textureWidth: 1024,
+    textureHight: 1024,
+    color: 0xeeeeff,
+    flowDirection: new THREE.Vector2(1, 1),
+    scale: 1
+});
+// 15.2 导入进来的水面时竖起来的，所以要放平
+water.rotation.x = -Math.PI / 2;
+water.position.y = 3;
+scene.add(water);
 
 // 7.将渲染器添加进页面
 document.body.appendChild(renderer.domElement);
