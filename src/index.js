@@ -1,7 +1,7 @@
 // 1.导入threejs
 import * as THREE from "../node_modules/three/build/three.min.js";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
+import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls";
+import { RGBELoader } from "../node_modules/three/examples/jsm/loaders/RGBELoader";
 // 2.初始化场景
 const scene = new THREE.Scene();
 
@@ -80,6 +80,17 @@ window.addEventListener('click', () => {
         skyMaterial.map.needsUpdate = true;
     }
 });
+
+// 14.载入环境纹理s
+const hdrLoader = new RGBELoader();
+hdrLoader.loadAsync('../src/assets/050.hdr').then((hdrTexture) => {
+    //14.1 环境反射贴图的映射方式，这里用的是一个叫等量矩形投影的映射方法
+    hdrTexture.mapping = THREE.EquirectangularReflectionMapping;
+    // 14.2添加环境纹理
+    scene.background = hdrTexture;
+    // 14.3设为场景中所有物理材质的环境贴图
+    scene.environment = hdrTexture;
+})
 
 // 7.将渲染器添加进页面
 document.body.appendChild(renderer.domElement);
