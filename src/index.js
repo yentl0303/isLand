@@ -2,6 +2,8 @@
 import * as THREE from "../node_modules/three/build/three.min.js";
 import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls";
 import { RGBELoader } from "../node_modules/three/examples/jsm/loaders/RGBELoader";
+import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoader";
+import { DRACOLoader } from "../node_modules/three/examples/jsm/loaders/DRACOLoader";
 // 导入水面
 import { Water } from "../node_modules/three/examples/jsm/objects/Water2";
 // 2.初始化场景
@@ -25,7 +27,8 @@ scene.add(camera);
 // 6.初始化渲染器
 const renderer = new THREE.WebGLRenderer({
     // 6.1设置抗锯齿
-    antialias: true
+    antialias: true,
+    logarithmicDepthBuffer: true
 });
 
 // 6.2设置渲染尺寸
@@ -109,6 +112,17 @@ water.rotation.x = -Math.PI / 2;
 water.position.y = 3;
 scene.add(water);
 
+// 16.添加小岛模型
+// 16.1 实例化glty载入库
+const loader = new GLTFLoader();
+// 16.2实例化draco导入库
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('../src/assets/draco/');
+loader.setDRACOLoader(dracoLoader);
+
+loader.load('../src/assets/model/island2.glb', (gltf) => {
+    scene.add(gltf.scene);
+})
 // 7.将渲染器添加进页面
 document.body.appendChild(renderer.domElement);
 
