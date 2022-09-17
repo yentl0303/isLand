@@ -28,10 +28,13 @@ scene.add(camera);
 const renderer = new THREE.WebGLRenderer({
     // 6.1设置抗锯齿
     antialias: true,
+    // 16.3对数深度缓冲区
     logarithmicDepthBuffer: true
 });
+//默认情况下threeJS会使用线性编码（LinearEncoding）的方式渲染材质，因此会丢失真实颜色，需要改用RGB模式编码（sRGBEncoding）进行对材质进行渲染
+renderer.outputEncoding = THREE.sRGBEncoding;
 
-// 6.2设置渲染尺寸
+// 6.2设置渲染re
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // 6.3设置屏幕大小变化时要重新渲染以更新画面
